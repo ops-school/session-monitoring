@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python
 import socket
 import random
 rand=random.Random()
@@ -72,29 +72,52 @@ def update_dict():
   my_dict['DummyService_duration_cumulative_bucket{le="90.0",}']=my_dict['DummyService_duration_cumulative_bucket{le="80.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="90.0",}']
   my_dict['DummyService_duration_cumulative_bucket{le="+Inf",}']=my_dict['DummyService_duration_cumulative_bucket{le="90.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="+Inf",}']
 
-def create_data():
-   update_dict()
-   return_string=''
-   for key in my_dict:
-    return_string+=key+' '+str(my_dict[key])+"\n"
-   return return_string
 
-#HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
-PORT = 65433        # Port to listen on (non-privileged ports are > 1023)
+from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
+
+#HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
+#PORT = 65433        # Port to listen on (non-privileged ports are > 1023)
+PORT_NUMBER = 65433
+
+#This class will handles any incoming request from
+#the browser 
+class myHandler(BaseHTTPRequestHandler):
+
+  def create_data():
+    update_dict()
+    return_string=''
+    for key in my_dict:
+     return_string+=key+' '+str(my_dict[key])+"\n"
+    return return_string
+ 
+ #Handler for the GET requests
+  def do_GET(self):
+
+    def create_data():
+       update_dict()
+       return_string=''
+       for key in my_dict:
+        return_string+=key+' '+str(my_dict[key])+"\n"
+       return return_string
+
+    return_data=create_data()
+    self.send_response(200)
+    self.send_header('Content-type','text/html')
+    self.end_headers()
+    # Send the html message
+    self.wfile.write(return_data)
+    return
+
 try:
-  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-      s.bind((HOST, PORT))
-      s.listen()
-      while True:
-         conn, addr = s.accept()
-         with conn:
-             while True:
-                 data = conn.recv(1024)
-                 if not data:
-                     break
-                 return_data=create_data()
-                 conn.sendall(bytes(return_data, 'utf-8'))
-                 break
-except()  as e:
-  s.close()
+  #Create a web server and define the handler to manage the
+  #incoming request
+  server = HTTPServer(('', PORT_NUMBER), myHandler)
+  print ('Started httpserver on port ' , PORT_NUMBER)
+  
+  #Wait forever for incoming htto requests
+  server.serve_forever()
+ 
+except KeyboardInterrupt:
+  print '^C received, shutting down the web server'
+  server.socket.close()
+ 
