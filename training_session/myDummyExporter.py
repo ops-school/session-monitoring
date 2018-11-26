@@ -7,7 +7,7 @@ rand=random.Random()
 my_dict={}
 my_dict['DummyService_requests{caller="APT",}']= 10008.0
 my_dict['DummyService_errors{}']= 43.0
-my_dict['DummyService_duration_summary{quantile="0.5",}']= 0.0
+my_dict['DummyService_duration_summary{quantile="0.5",}']= 100.0
 my_dict['DummyService_duration_summary{quantile="0.75",}']= 0.0
 my_dict['DummyService_duration_summary{quantile="0.95",}']= 0.0
 my_dict['DummyService_duration_summary{quantile="0.98",}']= 0.0
@@ -43,12 +43,12 @@ def update_dict():
   my_dict['DummyService_errors{}']+=rand.randint(0, 10)
   my_dict['DummyService_duration_summary_count{}']+=rand.randint(0, 100)
   my_dict['DummyService_duration_summary_sum{}']+=rand.randint(0, 1000)
-  my_dict['DummyService_duration_summary{quantile="0.5",}']+=+rand.randint(0, 10)
-  my_dict['DummyService_duration_summary{quantile="0.75",}']=(my_dict['DummyService_duration_summary{quantile="0.75",}']+rand.randint(0, 10))
-  my_dict['DummyService_duration_summary{quantile="0.95",}']=(my_dict['DummyService_duration_summary{quantile="0.75",}']+rand.randint(0, 10))
-  my_dict['DummyService_duration_summary{quantile="0.98",}']=(my_dict['DummyService_duration_summary{quantile="0.95",}']+rand.randint(0, 10))
-  my_dict['DummyService_duration_summary{quantile="0.99",}']=(my_dict['DummyService_duration_summary{quantile="0.99",}']+rand.randint(0, 10))
-  my_dict['DummyService_duration_summary{quantile="0.999",}']=(my_dict['DummyService_duration_summary{quantile="0.999",}']+rand.randint(0, 10))
+  my_dict['DummyService_duration_summary{quantile="0.5",}']+=(5-rand.randint(0, 10))
+  my_dict['DummyService_duration_summary{quantile="0.75",}']=(my_dict['DummyService_duration_summary{quantile="0.5",}']+rand.randint(0, 3))
+  my_dict['DummyService_duration_summary{quantile="0.95",}']=(my_dict['DummyService_duration_summary{quantile="0.75",}']+rand.randint(0, 5))
+  my_dict['DummyService_duration_summary{quantile="0.98",}']=(my_dict['DummyService_duration_summary{quantile="0.95",}']+rand.randint(0, 5))
+  my_dict['DummyService_duration_summary{quantile="0.99",}']=(my_dict['DummyService_duration_summary{quantile="0.98",}']+rand.randint(0, 5))
+  my_dict['DummyService_duration_summary{quantile="0.999",}']=(my_dict['DummyService_duration_summary{quantile="0.99",}']+rand.randint(0, 10))
   #OK
   my_dict['DummyService_duration_non_cumulative_bucket{le="10.0",}']+=(5-rand.randint(0, 10))
   my_dict['DummyService_duration_non_cumulative_bucket{le="20.0",}']+=(5-rand.randint(0, 10))
