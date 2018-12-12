@@ -44,12 +44,13 @@ def update_dict():
   my_dict['DummyService_duration_summary_count{}']+=rand.randint(0, 100)
   my_dict['DummyService_duration_summary_sum{}']+=rand.randint(0, 1000)
   my_dict['DummyService_duration_summary{quantile="0.5",}']+=(5-rand.randint(0, 10))
+
   my_dict['DummyService_duration_summary{quantile="0.75",}']=(my_dict['DummyService_duration_summary{quantile="0.5",}']+rand.randint(0, 3))
   my_dict['DummyService_duration_summary{quantile="0.95",}']=(my_dict['DummyService_duration_summary{quantile="0.75",}']+rand.randint(0, 5))
   my_dict['DummyService_duration_summary{quantile="0.98",}']=(my_dict['DummyService_duration_summary{quantile="0.95",}']+rand.randint(0, 5))
   my_dict['DummyService_duration_summary{quantile="0.99",}']=(my_dict['DummyService_duration_summary{quantile="0.98",}']+rand.randint(0, 5))
   my_dict['DummyService_duration_summary{quantile="0.999",}']=(my_dict['DummyService_duration_summary{quantile="0.99",}']+rand.randint(0, 10))
-  #OK
+
   my_dict['DummyService_duration_non_cumulative_bucket{le="10.0",}']+=(5-rand.randint(0, 10))
   my_dict['DummyService_duration_non_cumulative_bucket{le="20.0",}']+=(5-rand.randint(0, 10))
   my_dict['DummyService_duration_non_cumulative_bucket{le="30.0",}']+=(5-rand.randint(0, 10))
@@ -60,9 +61,9 @@ def update_dict():
   my_dict['DummyService_duration_non_cumulative_bucket{le="80.0",}']+=(5-rand.randint(0, 10))
   my_dict['DummyService_duration_non_cumulative_bucket{le="90.0",}']+=(5-rand.randint(0, 10))
   my_dict['DummyService_duration_non_cumulative_bucket{le="+Inf",}']+=(5-rand.randint(0, 10))
-  #OK
-  my_dict['DummyService_duration_cumulauration_cumulative_bucket{le="10.0",}']=my_dict['DummyService_duration_non_cumulative_bucket{le="10.0",}']
-  my_dict['DummyService_dtive_bucket{le="20.0",}']=my_dict['DummyService_duration_cumulative_bucket{le="10.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="20.0",}']
+
+  my_dict['DummyService_duration_cumulative_bucket{le="10.0",}']=my_dict['DummyService_duration_non_cumulative_bucket{le="10.0",}']
+  my_dict['DummyService_duration_cumulative_bucket{le="20.0",}']=my_dict['DummyService_duration_cumulative_bucket{le="10.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="20.0",}']
   my_dict['DummyService_duration_cumulative_bucket{le="30.0",}']=my_dict['DummyService_duration_cumulative_bucket{le="20.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="30.0",}']
   my_dict['DummyService_duration_cumulative_bucket{le="40.0",}']=my_dict['DummyService_duration_cumulative_bucket{le="30.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="40.0",}']
   my_dict['DummyService_duration_cumulative_bucket{le="50.0",}']=my_dict['DummyService_duration_cumulative_bucket{le="40.0",}']+my_dict['DummyService_duration_non_cumulative_bucket{le="50.0",}']
@@ -104,13 +105,13 @@ class myHandler(BaseHTTPRequestHandler):
     self.send_response(200)
     self.send_header('Content-type','text/html')
     self.end_headers()
+
     # Send the html message
     self.wfile.write(return_data)
     return
 
 try:
-  #Create a web server and define the handler to manage the
-  #incoming request
+  #Create a web server and define the handler to manage the incoming request
   server = HTTPServer(('', PORT_NUMBER), myHandler)
   print ('Started httpserver on port ' , PORT_NUMBER)
   
