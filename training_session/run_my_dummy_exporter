@@ -10,7 +10,7 @@ SCRIPT_LOCATION=./
 SCRIPT=${SCRIPT_LOCATION}/${SCRIPT_BASE_NAME}.py
 export LOG_DIR=/tmp
 export LOG_BASE_NAME=my_dummy_exporter
-export LOG_NAME=${LOG_DIR}/{LOG_BASE_NAME}.log
+export LOG_NAME=${LOG_DIR}/${LOG_BASE_NAME}.log
 export EXPORTER_PORT=65433
 
 
@@ -47,7 +47,7 @@ fail_if_process_running(){
 
 case $1 in 
   "start" )  fail_if_process_running 
-             ${SCRIPT}> ${LOG_NAME}  2>&1 &
+             ${SCRIPT} >> ${LOG_NAME}  2>&1 &
              echo $! > $PID_FILE;;
   "stop" )  PID=`getPID`
             echo "stopping..... `ps -ef|grep $PID|grep -v grep|grep ${SCRIPT_BASE_NAME}`"
