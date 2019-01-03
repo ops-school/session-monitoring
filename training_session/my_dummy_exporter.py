@@ -26,8 +26,8 @@ my_dict['DummyService_duration_summary{quantile="0.95",'] = 0.0
 my_dict['DummyService_duration_summary{quantile="0.98",'] = 0.0
 my_dict['DummyService_duration_summary{quantile="0.99",'] = 0.0
 my_dict['DummyService_duration_summary{quantile="0.999",'] = 0.0
-my_dict['DummyService_duration_summary_count{}'] = 10008.0
-my_dict['DummyService_duration_summary_sum{}'] = 433354.0
+my_dict['DummyService_duration_summary_count{'] = 10008.0
+my_dict['DummyService_duration_summary_sum{'] = 433354.0
 my_dict['DummyService_duration_cumulative_bucket{le="10.0",'] = 5056.0
 my_dict['DummyService_duration_cumulative_bucket{le="20.0",'] = 5702.0
 my_dict['DummyService_duration_cumulative_bucket{le="30.0",'] = 6333.0
@@ -55,8 +55,8 @@ def update_dict():
   """ change dict data with random """
   my_dict['DummyService_requests{caller = "APT",'] += RAND.randint(0, 100)
   my_dict['DummyService_errors{'] += RAND.randint(0, 10)
-  my_dict['DummyService_duration_summary_count{}'] += RAND.randint(0, 100)
-  my_dict['DummyService_duration_summary_sum{}'] += RAND.randint(0, 1000)
+  my_dict['DummyService_duration_summary_count{'] += RAND.randint(0, 100)
+  my_dict['DummyService_duration_summary_sum{'] += RAND.randint(0, 1000)
   my_dict['DummyService_duration_summary{quantile="0.5",'] += (5-RAND.randint(0, 10))
 
   my_dict['DummyService_duration_summary{quantile="0.75",'] = (my_dict['DummyService_duration_summary{quantile="0.5",']+RAND.randint(0, 3))
@@ -93,7 +93,7 @@ def create_data():
    update_dict()
    return_string = ''
    for key in my_dict:
-     return_string += key+'process_id='+str(PROCESS_ID)+',process_name="'+PROCESS_NAME+'"} '+str(my_dict[key])+"\n"
+     return_string += key+'process_id="'+str(PROCESS_ID)+'",process_name="'+PROCESS_NAME+'"} '+str(my_dict[key])+"\n"
    return return_string
 
 #HOST = '0.0.0.0'  # Standard loopback interface address (localhost)
