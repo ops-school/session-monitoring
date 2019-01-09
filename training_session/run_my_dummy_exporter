@@ -33,7 +33,7 @@ getPID(){
 }
 
 checkPort(){
-  running=`netstat -ap tcp | grep -i "listen"|grep ${EXPORTER_PORT}|wc -l`
+  running=`netstat -tl | grep -i "tcp" | grep ${EXPORTER_PORT} | wc -l`
   checkError ${running} "port '${EXPORTER_PORT}' already taken, please check"
 }
 
